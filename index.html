@@ -23,44 +23,7 @@
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
 html{scroll-behavior:smooth;}
 body{background:var(--white);color:var(--graphite);-webkit-font-smoothing:antialiased;overflow-x:hidden;}
-body.preview-active{overflow:hidden;}
 img{display:block;max-width:100%;}
-
-/* ────── PREVIEW MODAL OVERLAY ────── */
-#preview-overlay{
-  position:fixed;inset:0;z-index:10000;
-  background:rgba(30,28,26,.65);backdrop-filter:blur(10px);
-  display:flex;align-items:center;justify-content:center;
-  padding:20px;
-  transition:opacity .5s ease,visibility .5s ease;
-}
-#preview-overlay.hidden{opacity:0;visibility:hidden;pointer-events:none;}
-.preview-card{
-  background:var(--white);
-  padding:clamp(28px,5vw,40px);
-  border-radius:16px;
-  max-width:440px;width:100%;
-  text-align:center;
-  box-shadow:0 20px 50px rgba(0,0,0,.2);
-  display:flex;flex-direction:column;align-items:center;gap:16px;
-}
-.preview-card h2{
-  font-family:'Cormorant Garamond',serif;font-weight:600;font-style:italic;
-  font-size:clamp(22px,3vw,28px);color:var(--graphite);line-height:1.2;
-}
-.preview-card p{
-  font-family:'Jost',sans-serif;font-weight:300;
-  font-size:14px;color:var(--graphite-soft);line-height:1.5;
-}
-.btn-preview{
-  font-family:'Jost',sans-serif;font-weight:500;font-size:12px;
-  letter-spacing:.16em;text-transform:uppercase;
-  padding:14px 28px;background:var(--wine);color:var(--white);
-  border:none;border-radius:2px;cursor:pointer;
-  transition:background .25s,transform .2s;
-  margin-top:8px;
-}
-.btn-preview:hover{background:var(--wine-light);transform:scale(1.02);}
 
 /* ────── LOADER ────── */
 #loader{
@@ -131,7 +94,7 @@ nav.scrolled{border-color:var(--line);}
   letter-spacing:.28em;text-transform:uppercase;color:var(--graphite-soft);
   margin-bottom:clamp(14px,2vw,22px);
 }
-
+/* ────── TRUST BAR (avaliação · aberto/fechado · instagram · local) ────── */
 .trust-bar{
   display:flex;align-items:center;flex-wrap:wrap;gap:12px 18px;
   margin-bottom:clamp(16px,2.2vw,24px);
@@ -195,6 +158,7 @@ nav.scrolled{border-color:var(--line);}
   display:flex;align-items:flex-end;justify-content:center;
   overflow:hidden;
 }
+/* brilho decorativo atrás da modelo, não mais por cima do rosto/cabeça */
 .hero-glow{
   position:absolute;z-index:0;pointer-events:none;
   top:6%;right:8%;width:62%;height:58%;
@@ -303,7 +267,7 @@ hr.divider{border:none;border-top:1px solid var(--line);margin:clamp(50px,8vw,90
   line-height:1.65;color:var(--graphite-soft);
 }
 
-/* ────── TRATAMENTOS ────── */
+/* ────── TRATAMENTOS (foto) ────── */
 #treatment{background:var(--blush);}
 .treatment-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(30px,5vw,70px);align-items:center;}
 .treatment-img img{width:100%;border-radius:20px;box-shadow:0 24px 60px -16px rgba(30,28,26,.18);}
@@ -320,6 +284,7 @@ hr.divider{border:none;border-top:1px solid var(--line);margin:clamp(50px,8vw,90
   display:grid;grid-template-columns:repeat(auto-fit,minmax(280px,1fr));
   gap:clamp(18px,3vw,36px);
 }
+.result-item{}
 .result-label{
   font-family:'Jost',sans-serif;font-weight:300;font-size:11px;
   letter-spacing:.2em;text-transform:uppercase;color:var(--graphite-soft);
@@ -409,7 +374,7 @@ footer{
 .reveal{opacity:0;transform:translateY(30px) scale(.975);filter:blur(5px);transition:opacity 1s var(--ease),transform 1s var(--ease),filter 1s var(--ease);transition-delay:var(--d,0s);}
 .reveal.in{opacity:1;transform:translateY(0) scale(1);filter:blur(0);}
 
-/* ────── ENTRADA DO HERO ────── */
+/* ────── ENTRADA DO HERO (dispara junto ao fim do loader) ────── */
 .hero-in{opacity:0;transform:translateY(22px);transition:opacity 1s var(--ease),transform 1s var(--ease);transition-delay:var(--d,0s);}
 .hero-in.in{opacity:1;transform:translateY(0);}
 .hero-photo.hero-in{transform:translateY(14px) scale(.97);}
@@ -426,16 +391,7 @@ footer{
 }
 </style>
 </head>
-<body class="preview-active">
-
-<!-- PREVIEW OVERLAY -->
-<div id="preview-overlay">
-  <div class="preview-card">
-    <h2>Prévia Exclusiva</h2>
-    <p>Site Tainá Marques — Clínica de Estética.<br>Clique no botão abaixo para visualizar a prévia completa.</p>
-    <button class="btn-preview" onclick="startSite()">Ver prévia do site</button>
-  </div>
-</div>
+<body>
 
 <!-- LOADER -->
 <div id="loader">
@@ -467,13 +423,13 @@ footer{
           <svg class="star" viewBox="0 0 24 24"><path d="M12 .9l3.09 6.26 6.91 1-5 4.87 1.18 6.88L12 16.6l-6.18 3.25L7 12.98l-5-4.87 6.91-1z"/></svg>
           <svg class="star" viewBox="0 0 24 24"><path d="M12 .9l3.09 6.26 6.91 1-5 4.87 1.18 6.88L12 16.6l-6.18 3.25L7 12.98l-5-4.87 6.91-1z"/></svg>
         </div>
-        <span class="tb-score" id="tbScore">5.0</span>
+        <span class="tb-score" id="tbScore">0.0</span>
         <span class="tb-reviews">(3 avaliações)</span>
       </div>
       <span class="tb-sep"></span>
       <div class="tb-status" id="tbStatus">
         <span class="tb-dot" id="tbDot"></span>
-        <span id="tbStatusText">Aberto agora</span>
+        <span id="tbStatusText">verificando horário…</span>
       </div>
       <span class="tb-sep"></span>
       <a href="https://instagram.com/tainamarques_estetica" target="_blank" rel="noopener" class="tb-link">
@@ -500,39 +456,4 @@ footer{
   </div>
   <div class="hero-photo hero-in" id="heroPhoto" style="--d:.1s">
     <div class="hero-glow"></div>
-    <div class="sweep"></div>
-  </div>
-</section>
-
-<!-- SCRIPTS -->
-<script>
-function startSite() {
-  document.getElementById('preview-overlay').classList.add('hidden');
-  document.body.classList.remove('preview-active');
-  
-  // Inicia a animação do loader do zero
-  let lbar = document.getElementById('lbar');
-  let loader = document.getElementById('loader');
-  let p = 0;
-  
-  let timer = setInterval(() => {
-    p += 4;
-    lbar.style.width = p + '%';
-    if(p >= 100) {
-      clearInterval(timer);
-      setTimeout(() => {
-        loader.classList.add('done');
-        triggerHero();
-      }, 200);
-    }
-  }, 30);
-}
-
-function triggerHero() {
-  document.querySelectorAll('.hero-in').forEach(el => el.classList.add('in'));
-  document.getElementById('trustBar').classList.add('in');
-  document.getElementById('heroPhoto').classList.add('cycling');
-}
-</script>
-</body>
-</html>
+    <img class="hp-a" src="data:image/webp;base64,UklGRjYbAQBXRUJQVlA4WAoAAAAQAAAAzwIApAMAQUxQSMk2AAANz8I4kqQ2df6A/KNSQHj2rwgiIr9mF/a0NzDRCgGUnjCYfmMwQ8B+/NyyOXzclX4iECPZrdsMHg2ACIT+C9YHxJsUENH/CZCjnlKHz0hIGcW1Up7Nfgc7utZ6EbM9FZ/Ep66GbLQbyuWrIRUj0BZG/ri0JTXiAMCjPY+JilZhBExLo5U5ULpa7hOFDiomtOWpA1LeSfcR1caeALIle0CkemJmv2NnzexArHVKzMS9oRN3398yqSKGBJ9izr8kFwjk0yML4t+pD89D++UKCnkB2StJkuyHZNGHK0jkIRfD4tpc9we8j21AlEcAuQJGBACbyhaJPniQ4MlJFImPc4IMIHkQQNAUvhLs/yyohAV32RwGAdC2CQT/pvPYERARExAjRBB3ShKZV0aLE7p4Gy4c4mVw5RE
